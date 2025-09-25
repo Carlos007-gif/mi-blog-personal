@@ -32,12 +32,14 @@
                         preg_match('/Título:\s*(.*)/', $metadata, $titleMatch);
                         preg_match('/Fecha:\s*(.*)/', $metadata, $dateMatch);
                         preg_match('/Autor:\s*(.*)/', $metadata, $authorMatch);
+                        preg_match('/Categoría:\s*(.*)/', $metadata, $categoryMatch); // Para mejora 4
 
                         $posts[] = [
                             'id' => str_replace('.txt', '', $entry),
                             'title' => trim($titleMatch[1] ?? 'Sin título'),
                             'date' => trim($dateMatch[1] ?? 'Sin fecha'),
                             'author' => trim($authorMatch[1] ?? 'Anónimo'),
+                            'category' => trim($categoryMatch[1] ?? 'Sin categoría'),
                             'excerpt' => substr(strip_tags($body), 0, 120) . '...'
                         ];
                     }
@@ -46,14 +48,37 @@
             closedir($handle);
         }
 
+        // Ordenar por fecha (más reciente primero)
+        usort($posts, function($a, $b) {
+            return strtotime($b['date']) - strtotime($a['date']);
+        });
+
+        // Paginación
+        $perPage = 2;
+        $page = max(1, (int)($_GET['page'] ?? 1));
+        $totalPosts = count($posts);
+        $totalPages = ceil($totalPosts / $perPage);
+        $start = ($page - 1) * $perPage;
+        $postsToShow = array_slice($posts, $start, $perPage);
+
         // Mostrar posts
-        foreach ($posts as $post) {
+        foreach ($postsToShow as $post) {
             echo '<article class="post-card">';
             echo '<h2><a href="post.php?id=' . $post['id'] . '">' . htmlspecialchars($post['title']) . '</a></h2>';
-            echo '<p class="meta">📅 ' . $post['date'] . ' · 👤 ' . htmlspecialchars($post['author']) . '</p>';
+            echo '<p class="meta">📅 ' . $post['date'] . ' · 👤 ' . htmlspecialchars($post['author']) . ' · 🏷️ ' . htmlspecialchars($post['category']) . '</p>';
             echo '<p>' . htmlspecialchars($post['excerpt']) . '</p>';
             echo '</article>';
         }
+
+        // Botones de paginación
+        echo '<div class="pagination">';
+        if ($page > 1) {
+            echo '<a href="?page=' . ($page - 1) . '">← Anterior</a>';
+        }
+        if ($page < $totalPages) {
+            echo '<a href="?page=' . ($page + 1) . '">Siguiente →</a>';
+        }
+        echo '</div>';
         ?>
     </main>
 

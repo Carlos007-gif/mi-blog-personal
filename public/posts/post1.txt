@@ -1,0 +1,5 @@
+echo "Título: Mi primer post
+Fecha: 2025-04-05
+Autor: Yo
+---
+¡Hola mundo! Este es mi primer post en mi blog personal. ¡Espero que te guste!" > public/posts/post1.txt

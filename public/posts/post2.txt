@@ -1,0 +1,5 @@
+echo "Título: Aprendiendo PHP
+Fecha: 2025-04-06
+Autor: Yo
+---
+PHP es un lenguaje poderoso para crear sitios web dinámicos. ¡Lo estoy aprendiendo paso a paso!" > public/posts/post2.txt

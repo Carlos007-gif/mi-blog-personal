@@ -1,0 +1,5 @@
+echo "Título: ¿Por qué usar Codespaces?
+Fecha: 2025-04-07
+Autor: Yo
+---
+GitHub Codespaces me permite programar desde cualquier lugar, sin instalar nada. ¡Increíble!" > public/posts/post3.txt

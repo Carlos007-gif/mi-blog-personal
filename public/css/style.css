@@ -192,3 +192,29 @@ form button:hover {
     font-weight: bold;
     color: #7f8c8d;
 }
+
+.category-filter {
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #ecf0f1;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.category-filter a {
+    margin: 0 5px;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #2c3e50;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.category-filter a:hover {
+    background: #bdc3c7;
+}
+
+.category-filter a.active {
+    background: #3498db;
+    color: white;
+}

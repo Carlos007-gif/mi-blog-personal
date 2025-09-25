@@ -218,3 +218,32 @@ form button:hover {
     background: #3498db;
     color: white;
 }
+
+.comments-section {
+    margin-top: 30px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.comments-section h3 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.comment {
+    background: #ecf0f1;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.comment strong {
+    color: #2c3e50;
+}
+
+.comment small {
+    color: #7f8c8d;
+    font-size: 0.8em;
+}

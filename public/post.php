@@ -47,6 +47,44 @@ $author = trim($authorMatch[1] ?? 'Anónimo');
             <?php echo nl2br(htmlspecialchars($body)); ?>
         </div>
 
+        <?php
+        // Ruta del archivo de comentarios
+        $commentsFile = 'comments/' . $id . '.json';
+
+        // Inicializar array de comentarios
+        $comments = [];
+
+        // Si existe el archivo, cargar comentarios
+        if (file_exists($commentsFile)) {
+            $jsonContent = file_get_contents($commentsFile);
+            $comments = json_decode($jsonContent, true) ?: [];
+        }
+
+        // Procesar envío de comentario
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'], $_POST['comment'])) {
+            $name = trim($_POST['name']);
+            $commentText = trim($_POST['comment']);
+            $date = date('Y-m-d H:i:s');
+
+            if (!empty($name) && !empty($commentText)) {
+                $newComment = [
+                    'name' => htmlspecialchars($name),
+                    'text' => htmlspecialchars($commentText),
+                    'date' => $date
+                ];
+
+                $comments[] = $newComment;
+
+                // Guardar en archivo JSON
+                file_put_contents($commentsFile, json_encode($comments, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+                // Redirigir para evitar reenvío al recargar
+                header("Location: post.php?id=" . $id);
+                exit;
+            }
+        }
+        ?>
+
         <!-- Formulario de comentarios -->
         <section class="comments-section">
             <h3>💬 Deja un comentario</h3>
@@ -64,22 +102,17 @@ $author = trim($authorMatch[1] ?? 'Anónimo');
 
         <!-- Mostrar comentarios -->
         <section class="comments-list">
-            <h3>🗨️ Comentarios (simulados)</h3>
-            <?php
-            // Simular comentarios (en producción, usarías un archivo o base de datos)
-            $comments = [
-                ['name' => 'Ana', 'text' => '¡Excelente post!', 'date' => '2025-04-05'],
-                ['name' => 'Carlos', 'text' => 'Muy útil, gracias.', 'date' => '2025-04-06'],
-                ['name' => 'Luisa', 'text' => '¿Puedes profundizar más?', 'date' => '2025-04-07']
-            ];
-
-            foreach ($comments as $comment) {
-                echo '<div class="comment">';
-                echo '<strong>' . htmlspecialchars($comment['name']) . '</strong> <small>(' . $comment['date'] . ')</small>';
-                echo '<p>' . htmlspecialchars($comment['text']) . '</p>';
-                echo '</div>';
-            }
-            ?>
+            <h3>🗨️ Comentarios (<?= count($comments) ?>)</h3>
+            <?php if (count($comments) === 0): ?>
+                <p style="color: #7f8c8d; text-align: center;">Aún no hay comentarios. ¡Sé el primero!</p>
+            <?php else: ?>
+                <?php foreach ($comments as $comment): ?>
+                    <div class="comment">
+                        <strong><?= $comment['name'] ?></strong> <small>(<?= $comment['date'] ?>)</small>
+                        <p><?= $comment['text'] ?></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </section>
     </main>
 

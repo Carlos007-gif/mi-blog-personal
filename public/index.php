@@ -96,6 +96,41 @@
         }
         echo '</div>';
         ?>
+
+        <!-- Formulario de comentarios -->
+        <section class="comments-section">
+            <h3>💬 Deja un comentario</h3>
+            <form method="POST" action="">
+                <input type="hidden" name="postId" value="<?= $id ?>">
+                <label for="commentName">Nombre:</label>
+                <input type="text" id="commentName" name="name" required>
+
+                <label for="commentText">Comentario:</label>
+                <textarea id="commentText" name="comment" rows="5" required></textarea>
+
+                <button type="submit">Enviar comentario</button>
+            </form>
+        </section>
+
+        <!-- Mostrar comentarios -->
+        <section class="comments-list">
+            <h3>🗨️ Comentarios (simulados)</h3>
+            <?php
+            // Simular comentarios (en producción, usarías un archivo o base de datos)
+            $comments = [
+                ['name' => 'Ana', 'text' => '¡Excelente post!', 'date' => '2025-04-05'],
+                ['name' => 'Carlos', 'text' => 'Muy útil, gracias.', 'date' => '2025-04-06'],
+                ['name' => 'Luisa', 'text' => '¿Puedes profundizar más?', 'date' => '2025-04-07']
+            ];
+
+            foreach ($comments as $comment) {
+                echo '<div class="comment">';
+                echo '<strong>' . htmlspecialchars($comment['name']) . '</strong> <small>(' . $comment['date'] . ')</small>';
+                echo '<p>' . htmlspecialchars($comment['text']) . '</p>';
+                echo '</div>';
+            }
+            ?>
+        </section>
     </main>
 
     <!-- Filtro de categorías -->

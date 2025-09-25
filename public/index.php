@@ -82,6 +82,18 @@
         echo '</div>';
         ?>
     </main>
+    
+    <div class="comments-info">
+        <p>💬 Comentarios: <span id="commentCount">3</span> (simulados)</p>
+    </div>
+
+    <script>
+        // Simular conteo de comentarios (podrías guardarlo en sesión o archivo más adelante)
+        document.addEventListener('DOMContentLoaded', function() {
+            const commentCount = Math.floor(Math.random() * 10) + 1; // 1 a 10
+            document.getElementById('commentCount').textContent = commentCount;
+        });
+    </script>
 
     <script src="js/script.js"></script>
 </body>

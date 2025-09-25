@@ -10,6 +10,7 @@
     <header>
         <h1>📚 Mi Blog Personal</h1>
         <input type="text" id="searchInput" placeholder="Buscar posts...">
+        <a href="new-post.php" style="margin-left: 20px; color: #27ae60; font-weight: bold;">➕ Nuevo Post</a>
     </header>
 
     <main id="postsContainer">

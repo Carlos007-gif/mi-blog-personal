@@ -54,6 +54,21 @@
             return strtotime($b['date']) - strtotime($a['date']);
         });
 
+        // Obtener categorías únicas
+        $categories = [];
+        foreach ($posts as $post) {
+            $categories[$post['category']] = true;
+        }
+        $categories = array_keys($categories);
+
+        // Filtro por categoría
+        $currentCategory = $_GET['category'] ?? 'all';
+        if ($currentCategory !== 'all') {
+            $postsToShow = array_filter($postsToShow, function($post) use ($currentCategory) {
+                return $post['category'] === $currentCategory;
+            });
+        }
+
         // Paginación
         $perPage = 2;
         $page = max(1, (int)($_GET['page'] ?? 1));
@@ -82,6 +97,17 @@
         echo '</div>';
         ?>
     </main>
+
+    <!-- Filtro de categorías -->
+    <div class="category-filter">
+        <strong>Filtrar por:</strong>
+        <a href="index.php?page=1" <?= $currentCategory === 'all' ? 'class="active"' : '' ?>>Todos</a>
+        <?php foreach ($categories as $cat): ?>
+            <a href="index.php?page=1&category=<?= urlencode($cat) ?>" <?= $currentCategory === $cat ? 'class="active"' : '' ?>>
+                <?= htmlspecialchars($cat) ?>
+            </a>
+        <?php endforeach; ?>
+    </div>
     
     <div class="comments-info">
         <p>💬 Comentarios: <span id="commentCount">3</span> (simulados)</p>
